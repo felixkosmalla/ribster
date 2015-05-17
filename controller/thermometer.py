@@ -1,4 +1,4 @@
-
+#!/usr/bin/python
 import time
 import thermolib as therm
 import sys
