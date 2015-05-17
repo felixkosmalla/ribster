@@ -1,2 +1,5 @@
 controller/env
 controller/thermolib.py
+
+
+*.pyc
