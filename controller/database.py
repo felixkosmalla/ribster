@@ -18,6 +18,7 @@ class Event(Model):
 
     TEMPERATURE = 1
     HEATING = 2
+    MANUAL_HEATING = 3
 
 
     class Meta:
@@ -34,6 +35,7 @@ class Setting(Model):
     RECORD_EVENTS = "record_events"
     PID_RUNNING = "pid_running"
     TARGET_TEMPERATURE = "target_temperature"
+    HEATING_ON = "heating_on"
 
     # Commands
     CMD_QUIT_THERMOMETER = "quit_thermometer"
@@ -48,6 +50,7 @@ default_settings = [
         (Setting.PID_RUNNING, "0"),
         (Setting.TARGET_TEMPERATURE, "0"),
         (Setting.CMD_QUIT_THERMOMETER, "0"),
+        (Setting.HEATING_ON, "1"),
     ]
 
 

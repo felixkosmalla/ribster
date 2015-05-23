@@ -1,4 +1,4 @@
-
+#!/usr/bin/python
 import time
 import thermolib as therm
 import sys
@@ -13,7 +13,7 @@ db = database.getDatabase()
 
 therm.init_thermo()
 
-buffer_length = 10
+buffer_length = 15
 buf = [therm.read_temperature()] * buffer_length
 
 i = 0
@@ -22,7 +22,7 @@ k = 0
 clean_every = 1000
 
 
-write_every_seconds = 0.5
+write_every_seconds = 1.0
 
 
 
