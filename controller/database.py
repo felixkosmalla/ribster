@@ -17,7 +17,8 @@ class Event(Model):
     param_3 = FloatField(null=True)
 
     TEMPERATURE = 1
-    HEATING = 2
+    PID_HEATING = 2
+    PID_TEMPERATURE = 4
     MANUAL_HEATING = 3
 
 
