@@ -14,7 +14,7 @@ class pidpy(object):
     
     yk = 0.0 # output
     
-    GMA_HLIM = 50.0
+    GMA_HLIM = 75.0
     GMA_LLIM = 0.0
     
     def __init__(self, ts, kc, ti, td):
@@ -130,11 +130,11 @@ def writeHeat(_t):
 
 if __name__=="__main__":
 
-    sampleTime = 20.0
+    sampleTime = 45.0
     pid = pidpy(sampleTime,57.76,554,138.5)
     pid = pidpy(sampleTime,57.76,554,138.5)
     temp = 21
-    setpoint = 90
+    setpoint = 95
     enable = True
 
     was_on = False

@@ -17,12 +17,16 @@ def plot():
 
     temp_objs = {
         'key':'Temperature',
-        'values': []
+        'values': [],
+        'color': '#E45B53',
+
     }
 
     h_objs = {
         'key':'Heating',
-        'values': []    
+        'values': [],
+        'bar':True,
+        'color':'#c9d2e2',
     }
 
     for t in temps:
@@ -47,16 +51,20 @@ def plot():
 
 
 
-    return json.dumps([temp_objs, h_objs])
+    return json.dumps([h_objs, temp_objs])
 
     return "test"
     pass
 
 
+@app.route('/temp')
+def temp():
+    temp = Event.select().where(Event.event_type==Event.PID_TEMPERATURE).limit(1).order_by(Event.timestamp.desc())[0].param_3
+    return str(temp)
 
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return send_from_directory('static',filename)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run('0.0.0.0', 5000, debug=True)

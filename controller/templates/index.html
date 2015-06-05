@@ -31,10 +31,21 @@
     <div class="container">
 
       <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 heading-col">
-          <img src="/static/ribster-logo.png"><br>
-          RIBSTER
-        </div>        
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 temp-col">
+          
+        </div>
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 heading-col">
+          <img src="/static/ribster-logo.png">
+          
+        </div>
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title-col">
+          RIBSTER          
+        </div>
+
+        
       </div>
 
       <div class="row">
@@ -69,52 +80,87 @@
 
     $(function(){
 
+      var data_full, chart;
 
 
+      function chartMe(){
 
+      d3.selectAll("svg > *").remove();
       $.getJSON('/plot', null, function(data, status){
 
-              nv.addGraph(function() {
-    var chart = nv.models.linePlusBarChart()
-      .margin({top: 30, right: 60, bottom: 50, left: 70})
-      .x(function(d,i) { return i })
-      .y(function(d) { return d[1] })
-      .color(d3.scale.category10().range())
-      ;
+        data_full = data;
 
-    chart.xAxis
-      .showMaxMin(false)
-      .tickFormat(function(d) {
-        var dx = data[0].values[d] && data[0].values[d][0] || 0;
-        return d3.time.format('%X')(new Date(dx))
+        nv.addGraph(function() {
+          chart = nv.models.linePlusBarChart()
+            .margin({top: 30, right: 60, bottom: 50, left: 70})
+            //We can set x data accessor to use index. Reason? So the bars all appear evenly spaced.
+            
+            .x(function(d,i) { return i })
+            .y(function(d,i) {return d[1] })
+
+            ;
+
+          chart.xAxis.tickFormat(function(d) {
+            var dx = data[0].values[d] && data[0].values[d][0] || 0;
+            return d3.time.format('%X')(new Date(dx))
+          });
+
+          chart.interpolate("cardinal");
+
+          chart.y1Axis
+            .tickFormat(d3.format(',f'));
+
+          chart.y2Axis
+            .tickFormat(function(d) { return d3.format(',f')(d) + '°C' });
+
+
+
+          chart.bars.forceY([0]);
+
+          d3.select('#chart svg')
+            .datum(data_full)
+            .transition()
+            .duration(0)
+            .call(chart);
+
+          nv.utils.windowResize(chart.update);
+
+          return chart;
+        });
+
+
+
+
       });
 
-    chart.y1Axis
-      .tickFormat(d3.format(',f'));
+      }
 
-    chart.y2Axis
-      .tickFormat(function(d) { return  d3.format(',f')(d) + " deg" });
 
-    //chart.bars.forceY([0]);
+      chartMe();
 
-    d3.select('#chart svg')
-      .datum(data)
-      .transition().duration(500)
-      .call(chart)
-      ;
+      setInterval(function(){
+        console.log("update");
+        $.getJSON('/plot', null, function(data, status){
+          data_full = data;
 
-    nv.utils.windowResize(chart.update);
+          d3.select('#chart svg').datum(data_full).transition().duration(500).call(chart);
+          nv.utils.windowResize(chart.update);
+        });
+      }, 30000);
 
-    return chart;
+
+  var temp_running = false;
+
+  setInterval(function(){
+
+    if (!temp_running){
+    temp_running = true;
+    $.get('/temp', null, function(res){
+      temp_running = false;  
+      $('.temp-col').html(res + " °C");
     });
-
-
-      });
-
-
-
-
-
+    }
+  }, 1000);
 
 
 
