@@ -155,8 +155,12 @@ if __name__=="__main__":
     	setpoint = float(dbs.Setting.get(dbs.Setting.key == dbs.Setting.TARGET_TEMPERATURE).value)
 	
     	# read temperature
-        reading = dbs.Event.select().where(dbs.Event.event_type == dbs.Event.TEMPERATURE).order_by(dbs.Event.timestamp.desc()).limit(1)[0]
-        temp = reading.param_3
+        try:
+            reading = dbs.Event.select().where(dbs.Event.event_type == dbs.Event.TEMPERATURE).order_by(dbs.Event.timestamp.desc()).limit(1)[0]
+            temp = reading.param_3
+        except:
+            print "COULD NOT READ TEMPERATURE!!"
+            temp = 0
 
         duty_cycle = pid.calcPID_reg4(temp, setpoint, enable)
 

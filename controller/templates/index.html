@@ -32,8 +32,53 @@
 
       <div class="row">
 
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 temp-col">
-          
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <table class="table table-hover">
+            <tbody>
+              <tr>
+                <td><b>PID Running</b></td>
+                <td>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" value=""
+                        {% if is_pid_on %}
+                          checked=checked
+                        {% endif %}
+                       id="running">
+                      running
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Setpoint</b>
+                </td>
+                <td>
+                  <input type="text" value="{{ setpoint }}" id="setpoint">
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <b>Oven Temp</b>
+                </td>
+                <td id="oven_temp">
+                  
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <b>Meat Temp</b>
+                </td>
+                <td id="meat_temp">
+                  
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
         </div>
 
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 heading-col">
@@ -42,7 +87,7 @@
         </div>
 
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title-col">
-          RIBSTER          
+          RIBSTER     
         </div>
 
         
@@ -66,6 +111,7 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"></script>
@@ -151,21 +197,59 @@
 
   var temp_running = false;
 
+  function updateTemp(){
+      if (!temp_running){
+      temp_running = true;
+      $.get('/temp', null, function(res){
+        temp_running = false;  
+        $('#oven_temp').html(res + " °C");
+      });
+      }
+
+  }
+
+  updateTemp();
+
   setInterval(function(){
+    updateTemp();
+  }, 5000);
 
-    if (!temp_running){
-    temp_running = true;
-    $.get('/temp', null, function(res){
-      temp_running = false;  
-      $('.temp-col').html(res + " °C");
+
+  function notification(str){
+    $.bootstrapGrowl(str,{
+      type: 'info'
     });
+  }
+
+
+  $('#running').change(function(){
+    if (!$('#running').prop('checked')){
+      $.get('/turn_pid_off', function(){
+        notification("PID Controller turned off");
+      });
+    }else{
+      $.get('/turn_pid_on', function(){
+        notification("PID Controller turned on");
+      });
     }
-  }, 1000);
+  });
 
 
 
+  $('#setpoint').keydown(function(e){
+    if (e.keyCode == 13){
+      setpoint = $(this).val();
+      $.post('/set_setpoint',{'setpoint':setpoint}, function(res){
+        notification("Setpoint set to "+res);
+      });
+    }
+    
+  }); 
 
     });
+
+
+  
 
 
 

@@ -2,13 +2,14 @@ from flask import *
 from database import *
 import json
 import time, datetime
+import thermocontrol
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
     #return "test"
-    return render_template('index.html')
+    return render_template('index.html', is_pid_on=thermocontrol.is_pid_on(), setpoint=thermocontrol.setpoint())
 
 
 @app.route('/plot')
@@ -62,11 +63,30 @@ def temp():
     temp = Event.select().where(Event.event_type==Event.PID_TEMPERATURE).limit(1).order_by(Event.timestamp.desc())[0].param_3
     return str(temp)
 
+
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return send_from_directory('static',filename)
 
-    
+
+
+@app.route('/turn_pid_on')
+def turn_pid_on():
+    thermocontrol.pid_on()
+    thermocontrol.on();
+    return "1"
+
+
+@app.route('/turn_pid_off')
+def turn_pid_off():
+    thermocontrol.off();
+    thermocontrol.pid_off()
+    return "1"
+
+@app.route('/set_setpoint', methods=['POST'])
+def set_setpoint():
+    setpoint = float(request.values['setpoint'].replace(',','.'))
+    return thermocontrol.setpoint(setpoint)
 
 
 if __name__ == '__main__':

@@ -25,6 +25,12 @@ def pid_off():
     s.value = "0"
     return s.save()
 
+def is_pid_on():
+        return dbs.Setting.select().where(dbs.Setting.key==dbs.Setting.PID_RUNNING).get().value == "1"
+
+
+
+
 def setpoint(temperature = False):
     s = dbs.Setting.select().where(dbs.Setting.key==dbs.Setting.TARGET_TEMPERATURE).get()
 
