@@ -1,0 +1,9 @@
+startup_message off
+
+defscrollback 10000
+
+
+screen -t Thermometer sudo python serial_thermometer.py
+screen -t Control python temp_control.py
+screen -t Web python web.py
+screen -t PID sudo python pid.py
