@@ -49,7 +49,7 @@ class Setting(Model):
 default_settings = [
         (Setting.RECORD_EVENTS, "0"),
         (Setting.PID_RUNNING, "0"),
-        (Setting.TARGET_TEMPERATURE, "0"),
+        (Setting.TARGET_TEMPERATURE, "90"),
         (Setting.CMD_QUIT_THERMOMETER, "0"),
         (Setting.HEATING_ON, "1"),
     ]

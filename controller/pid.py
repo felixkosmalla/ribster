@@ -140,8 +140,16 @@ if __name__=="__main__":
     was_on = False
 
     while True:
-        
+        # read if thing should run
+	should_run = int(dbs.Setting.get(dbs.Setting.key == dbs.Setting.PID_RUNNING).value)
 
+	if should_run == 0:
+		continue
+
+	# read setpoint
+	setpoint = float(dbs.Setting.get(dbs.Setting.key == dbs.Setting.TARGET_TEMPERATURE).value)
+	
+	# read temperature
         reading = dbs.Event.select().where(dbs.Event.event_type == dbs.Event.TEMPERATURE).order_by(dbs.Event.timestamp.desc()).limit(1)[0]
         temp = reading.param_3
 
