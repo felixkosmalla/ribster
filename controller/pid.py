@@ -134,7 +134,7 @@ if __name__=="__main__":
     pid = pidpy(sampleTime,57.76,554,138.5)
     pid = pidpy(sampleTime,57.76,554,138.5)
     temp = 21
-    setpoint = 95
+    setpoint = 100
     enable = True
 
     was_on = False
