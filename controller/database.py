@@ -20,6 +20,7 @@ class Event(Model):
     PID_HEATING = 2
     PID_TEMPERATURE = 4
     MANUAL_HEATING = 3
+    MEAT_TEMPERATURE = 5
 
 
     class Meta:
@@ -51,7 +52,7 @@ default_settings = [
         (Setting.PID_RUNNING, "0"),
         (Setting.TARGET_TEMPERATURE, "90"),
         (Setting.CMD_QUIT_THERMOMETER, "0"),
-        (Setting.HEATING_ON, "1"),
+        (Setting.HEATING_ON, "0"),
     ]
 
 

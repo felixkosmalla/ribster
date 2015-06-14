@@ -141,15 +141,20 @@ if __name__=="__main__":
 
     while True:
         # read if thing should run
-	should_run = int(dbs.Setting.get(dbs.Setting.key == dbs.Setting.PID_RUNNING).value)
+    	should_run = int(dbs.Setting.get(dbs.Setting.key == dbs.Setting.PID_RUNNING).value)
 
-	if should_run == 0:
-		continue
 
-	# read setpoint
-	setpoint = float(dbs.Setting.get(dbs.Setting.key == dbs.Setting.TARGET_TEMPERATURE).value)
+
+        if should_run == 0:
+            switch.off()
+            continue
+
+
+
+    	# read setpoint
+    	setpoint = float(dbs.Setting.get(dbs.Setting.key == dbs.Setting.TARGET_TEMPERATURE).value)
 	
-	# read temperature
+    	# read temperature
         reading = dbs.Event.select().where(dbs.Event.event_type == dbs.Event.TEMPERATURE).order_by(dbs.Event.timestamp.desc()).limit(1)[0]
         temp = reading.param_3
 
@@ -166,7 +171,7 @@ if __name__=="__main__":
         #### end save db
 
 
-        print str(time_on) + " - " +  str(time_off) + " - " + str(temp)
+        print str(time_on) + " - " +  str(time_off) + " - " + str(temp) + " / "+str(setpoint)
 
         switch.on()
         time.sleep(time_on)

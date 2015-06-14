@@ -9,6 +9,9 @@ def help():
     print "h0  - Turn heating off"
     print "t1  - Turn thermometer writing on"
     print "t0  - Turn thermometer writing off"
+    print "p1  - Turn PID Controller on"
+    print "p0  - Turn PID Controller off"
+    print "s   - setpoint"
     print "cdb - clear database"
     print "g   - get current temperature"
     print "x   - quit" 
@@ -40,6 +43,31 @@ while True:
         thermocontrol.off()
         print "recording switched off"
         continue
+
+    
+    if (i == "p1"):
+        thermocontrol.pid_on()
+        print "PID switched on"
+        continue
+        
+    if (i == "p0"):
+        thermocontrol.pid_off()
+        print "PID switched off"
+        continue
+
+
+    if (i == "s"):
+        print "new temperature, leaf blank for get"
+        setpoint = raw_input("temperature: ")
+
+        if setpoint == "":
+            print "temp:"
+            print thermocontrol.setpoint(False)
+        else:
+            print "new temp:"
+            print thermocontrol.setpoint(setpoint)
+            
+
 
     if (i == "?"):
         help()

@@ -31,41 +31,43 @@ def writeTemp(_t):
 
 
 
-while True:
+if __name__=="__main__":
 
-    checkNquit()
+    while True:
 
-    cont = False
-    rcv = "-99"
+        checkNquit()
 
-    # trying to read
-    try:
-        rcv = port.read(7).strip()
-        cont = True
+        cont = False
+        rcv = "-99"
 
-    except (KeyboardInterrupt, SystemExit):
-        print "closing port"
-        port.close()
-        raise
-    except:
-        print "reading error"
-
-    # if read successful, try to convert to float
-    if cont and shouldWeWrite():
+        # trying to read
         try:
-            temp = float(rcv)
-            print temp
-
-            writeTemp(temp)
+            rcv = port.read(7).strip()
+            cont = True
 
         except (KeyboardInterrupt, SystemExit):
             print "closing port"
             port.close()
             raise
-
         except:
-            print "convertion error"
-    
+            print "reading error"
+
+        # if read successful, try to convert to float
+        if cont and shouldWeWrite():
+            try:
+                temp = float(rcv)
+                print temp
+
+                writeTemp(temp)
+
+            except (KeyboardInterrupt, SystemExit):
+                print "closing port"
+                port.close()
+                raise
+
+            except:
+                print "convertion error"
+        
 
 
-port.close()
+    port.close()

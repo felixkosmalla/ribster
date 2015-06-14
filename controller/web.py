@@ -66,5 +66,8 @@ def temp():
 def static_files(filename):
     return send_from_directory('static',filename)
 
+    
+
+
 if __name__ == '__main__':
     app.run('0.0.0.0', 5000, debug=True)
