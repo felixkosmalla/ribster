@@ -130,6 +130,8 @@ def writeHeat(_t):
 
 if __name__=="__main__":
 
+    print "Starting PID Controller..."
+
     sampleTime = 45.0
     pid = pidpy(sampleTime,57.76,554,138.5)
     pid = pidpy(sampleTime,57.76,554,138.5)

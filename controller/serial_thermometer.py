@@ -32,7 +32,7 @@ def writeTemp(_t):
 
 
 if __name__=="__main__":
-
+    print "Starting thermometer..."
     while True:
 
         checkNquit()

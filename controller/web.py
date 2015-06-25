@@ -72,8 +72,10 @@ def static_files(filename):
 
 @app.route('/turn_pid_on')
 def turn_pid_on():
-    thermocontrol.pid_on()
     thermocontrol.on();
+    #time.sleep()
+    thermocontrol.pid_on()
+    
     return "1"
 
 
@@ -90,4 +92,10 @@ def set_setpoint():
 
 
 if __name__ == '__main__':
+
+    turn_pid_off()
+
+
+
+
     app.run('0.0.0.0', 5000, debug=True)
