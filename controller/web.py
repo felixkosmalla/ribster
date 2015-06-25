@@ -3,6 +3,7 @@ from database import *
 import json
 import time, datetime
 import thermocontrol
+import switch
 
 app = Flask(__name__)
 
@@ -83,6 +84,7 @@ def turn_pid_on():
 def turn_pid_off():
     thermocontrol.off();
     thermocontrol.pid_off()
+    switch.off()
     return "1"
 
 @app.route('/set_setpoint', methods=['POST'])
