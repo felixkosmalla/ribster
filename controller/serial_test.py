@@ -1,7 +1,7 @@
 import serial
 
-port = serial.Serial("/dev/ttyAMA0", baudrate=115200, timeout=10.0)
-
+#port = serial.Serial("/dev/ttyUSB0", baudrate=115200, timeout=60.0)
+port = serial.Serial("/dev/ttyAMA0", baudrate=1200, timeout=3.0)
 
 
 #while True:
@@ -15,9 +15,10 @@ while True:
     rcv = "-99"
     try:
         print "waiting..."
-        rcv = port.read(6).strip()
+        rcv = port.readline()
+	print rcv
         #print rcv
-        cont = True
+        #cont = True
     except (KeyboardInterrupt, SystemExit):
         print "closing port"
         port.close()

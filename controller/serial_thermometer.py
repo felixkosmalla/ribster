@@ -50,11 +50,13 @@ if __name__=="__main__":
             port.close()
             raise
         except:
+	    #raise
             print "reading error"
 
         # if read successful, try to convert to float
         if cont and shouldWeWrite():
             try:
+		print "rec: "+rcv
                 temp = float(rcv)
                 print temp
 
