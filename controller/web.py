@@ -60,7 +60,7 @@ def plot():
 
 @app.route('/temp')
 def temp():
-    temp = Event.select().where(Event.event_type==Event.PID_TEMPERATURE).limit(1).order_by(Event.timestamp.desc())[0].param_3
+    temp = Event.select().where(Event.event_type==Event.TEMPERATURE).limit(1).order_by(Event.timestamp.desc())[0].param_3
     return str(temp)
 
 
